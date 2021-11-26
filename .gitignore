@@ -4,3 +4,4 @@ build
 app/build
 app/lombok.config
 gcp/app-credentials.yaml
+gcp/router-usage-statistics-java.jar
