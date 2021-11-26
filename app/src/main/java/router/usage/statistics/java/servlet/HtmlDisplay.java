@@ -50,10 +50,10 @@ public class HtmlDisplay {
         String styleOpen = "<style>";
         String styleClose = "</style>";
         return styleOpen +
-                " body { font-family: arial, sans-serif; }" +
+                " body { font-family: arial, sans-serif; background: black; color: grey; }" +
                 " table { font-family: arial, sans-serif; border-collapse: collapse; width: auto; margin: 8px; }" +
-                " td, th { border: 1px solid #dddddd; text-align: left; padding: 8px; }" +
-                " tr:nth-child(even) { background-color: #dddddd; }" +
+                " td, th { border: 1px solid grey; text-align: left; padding: 8px; }" +
+                //" tr:nth-child(even) { background-color: grey; }" +
                 styleClose;
     }
 

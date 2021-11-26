@@ -8,6 +8,11 @@ repositories {
     mavenCentral()
 }
 
+jar {
+    archiveBaseName = rootProject.name
+    archiveVersion = ''
+}
+
 dependencies {
     implementation 'org.jsoup:jsoup:1.13.1'
     implementation'org.eclipse.jetty:jetty-server:11.0.0'
