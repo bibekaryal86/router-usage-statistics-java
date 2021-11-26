@@ -88,23 +88,37 @@ public class Service {
             totalTotals = totalTotals.add(new BigDecimal(model.getDataTotal()));
         }
 
-        return new Model(null, null, null, null, totalUploads.toString(), totalDownloads.toString(), totalTotals.toString());
+        return Model.builder()
+                .dataUpload(totalUploads.toString())
+                .dataDownload(totalDownloads.toString())
+                .dataTotal(totalTotals.toString())
+                .build();
     }
 
     public static ModelResponse getModelResponse(Set<String> yearMonthSet, List<Model> modelList, Model modelTotal) {
-        Model formattedModelTotal = new Model(null, null, null, null,
-                getFormattedData(modelTotal.getDataUpload()),
-                getFormattedData(modelTotal.getDataDownload()),
-                getFormattedData(modelTotal.getDataTotal()));
+        Model formattedModelTotal = Model.builder()
+                .dataUpload(getFormattedData(modelTotal.getDataUpload()))
+                .dataDownload(getFormattedData(modelTotal.getDataDownload()))
+                .dataTotal(getFormattedData(modelTotal.getDataTotal()))
+                .build();
 
         List<Model> formattedModelList = modelList.stream()
-                .map(model -> new Model(model.getId(), model.getDate(), model.getYear(), model.getDay(),
-                        getFormattedData(model.getDataUpload()),
-                        getFormattedData(model.getDataDownload()),
-                        getFormattedData(model.getDataTotal())))
+                .map(model -> Model.builder()
+                        .id(model.getId())
+                        .date(model.getDate())
+                        .year(model.getYear())
+                        .day(model.getDay())
+                        .dataUpload(getFormattedData(model.getDataUpload()))
+                        .dataDownload(getFormattedData(model.getDataDownload()))
+                        .dataTotal(getFormattedData(model.getDataTotal()))
+                        .build())
                 .collect(toList());
 
-        return new ModelResponse(formattedModelList, yearMonthSet, formattedModelTotal);
+        return ModelResponse.builder()
+                .modelList(formattedModelList)
+                .yearMonthSet(yearMonthSet)
+                .modelTotal(formattedModelTotal)
+                .build();
     }
 
     public static String getFormattedData(String dataInput) {
@@ -249,7 +263,15 @@ public class Service {
         String date = getModelClassDate(localDateTime);
         String year = getModelClassYear(localDateTime);
         String day = getModelClassDay(localDateTime);
-        return new Model(null, date, year, day, upload.toString(), download.toString(), total.toString());
+
+        return Model.builder()
+                .date(date)
+                .year(year)
+                .day(day)
+                .dataUpload(upload.toString())
+                .dataDownload(download.toString())
+                .dataTotal(total.toString())
+                .build();
     }
 
     private static List<Model> filterDataUsageListByMonth(List<Model> modelList, List<String> months) {
