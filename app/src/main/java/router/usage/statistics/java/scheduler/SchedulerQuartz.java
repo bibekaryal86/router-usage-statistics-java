@@ -1,11 +1,10 @@
 package router.usage.statistics.java.scheduler;
 
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -19,9 +18,8 @@ import static org.quartz.impl.StdSchedulerFactory.getDefaultScheduler;
 import static router.usage.statistics.java.util.Util.ACTIVE_PROFILE;
 import static router.usage.statistics.java.util.Util.getSystemEnvProperty;
 
+@Slf4j
 public class SchedulerQuartz {
-
-    private static final Logger log = LoggerFactory.getLogger(SchedulerQuartz.class);
 
     public void start() {
         log.info("Start Scheduler");

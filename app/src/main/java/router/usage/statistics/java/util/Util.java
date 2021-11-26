@@ -1,5 +1,9 @@
 package router.usage.statistics.java.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Util {
 
     // Constants

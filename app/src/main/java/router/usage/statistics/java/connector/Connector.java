@@ -12,14 +12,15 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.FindOneAndUpdateOptions;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Connection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import router.usage.statistics.java.model.Model;
 
 import java.util.ArrayList;
@@ -41,10 +42,9 @@ import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 import static org.jsoup.Jsoup.connect;
 import static router.usage.statistics.java.util.Util.*;
 
-
+@Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Connector {
-
-    private static final Logger log = LoggerFactory.getLogger(Connector.class);
 
     private static String dbName = null;
     private static String dbUsr = null;

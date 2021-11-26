@@ -1,19 +1,17 @@
 package router.usage.statistics.java.server;
 
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import router.usage.statistics.java.servlet.Servlet;
 
 import static router.usage.statistics.java.util.Util.*;
 
+@Slf4j
 public class ServerJetty {
-
-    private static final Logger log = LoggerFactory.getLogger(ServerJetty.class);
 
     public void start() throws Exception {
         log.info("Start Jetty Server");

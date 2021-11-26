@@ -1,15 +1,13 @@
 package router.usage.statistics.java;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import router.usage.statistics.java.scheduler.SchedulerQuartz;
 import router.usage.statistics.java.server.ServerJetty;
 
 import static router.usage.statistics.java.service.Service.insertDataUsages;
 
+@Slf4j
 public class App {
-
-    private static final Logger log = LoggerFactory.getLogger(App.class);
 
     public static void main(String[] args) throws Exception {
         log.info("Begin router-usage-statistics-java initialization...");

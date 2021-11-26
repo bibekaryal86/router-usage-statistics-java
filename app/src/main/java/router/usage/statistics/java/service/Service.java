@@ -1,11 +1,12 @@
 package router.usage.statistics.java.service;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Connection;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import router.usage.statistics.java.model.Model;
 import router.usage.statistics.java.model.ModelResponse;
 
@@ -26,9 +27,9 @@ import static org.jsoup.Jsoup.parse;
 import static router.usage.statistics.java.connector.Connector.*;
 import static router.usage.statistics.java.util.Util.*;
 
+@Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Service {
-
-    private static final Logger log = LoggerFactory.getLogger(Service.class);
 
     private static Map<String, String> cookies = null;
     private static String previousTotalData = "";

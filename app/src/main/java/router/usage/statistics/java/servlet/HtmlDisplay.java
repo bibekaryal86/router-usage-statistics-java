@@ -1,5 +1,7 @@
 package router.usage.statistics.java.servlet;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import router.usage.statistics.java.model.Model;
 
 import java.util.List;
@@ -8,6 +10,7 @@ import java.util.Set;
 import static java.util.Arrays.asList;
 import static router.usage.statistics.java.service.Service.getFormattedData;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class HtmlDisplay {
 
     private static final List<String> headers = asList("DATE", "UPLOAD", "DOWNLOAD", "TOTAL");
