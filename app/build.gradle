@@ -19,7 +19,7 @@ dependencies {
     implementation 'org.eclipse.jetty:jetty-servlet:11.0.0'
     implementation 'org.mongodb:mongodb-driver-sync:4.2.0-beta1'
     implementation 'org.quartz-scheduler:quartz:2.3.2'
-    implementation 'com.mailjet:mailjet-client:4.2.0'
+    implementation 'com.mailjet:mailjet-client:5.2.0'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation('org.slf4j:slf4j-api') {
         version {

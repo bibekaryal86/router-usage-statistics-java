@@ -193,11 +193,14 @@ public class Connector {
     }
 
     private static MailjetClient getMailjetClient() {
-        initEmail();
-        return new MailjetClient(emailPublicKey, emailPrivateKey, new ClientOptions("v3.1"));
+        return new MailjetClient(ClientOptions.builder()
+                .apiKey(emailPublicKey)
+                .apiSecretKey(emailPrivateKey)
+                .build());
     }
 
     public static void sendEmail(String text) {
+        initEmail();
         log.info("Send Email Request: {}", text);
 
         try {
@@ -206,14 +209,14 @@ public class Connector {
                             .put(new JSONObject()
                                     .put(Emailv31.Message.FROM, new JSONObject()
                                             .put("Email", emailSenderEmail)
-                                            .put("Name", emailSenderName)
-                                            .put(Emailv31.Message.TO, new JSONArray()
-                                                    .put(new JSONObject()
-                                                            .put("Email", emailSenderEmail)
-                                                            .put("Name", emailSenderName)
-                                                            .put(Emailv31.Message.SUBJECT, "ALERT! Internet Router Usage Statistics!!!")
-                                                            .put(Emailv31.Message.TEXTPART, text)
-                                                            .put(Emailv31.Message.CUSTOMID, UUID.randomUUID().toString()))))));
+                                            .put("Name", emailSenderName))
+                                    .put(Emailv31.Message.TO, new JSONArray()
+                                            .put(new JSONObject()
+                                                    .put("Email", emailSenderEmail)
+                                                    .put("Name", emailSenderName)))
+                                    .put(Emailv31.Message.SUBJECT, "ALERT! Internet Router Usage Statistics!!!")
+                                    .put(Emailv31.Message.TEXTPART, text)
+                                    .put(Emailv31.Message.CUSTOMID, UUID.randomUUID().toString())));
 
             MailjetResponse response = getMailjetClient().post(request);
 
