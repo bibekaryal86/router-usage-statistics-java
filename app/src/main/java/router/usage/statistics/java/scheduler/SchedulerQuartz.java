@@ -30,7 +30,7 @@ public class SchedulerQuartz {
 
             // schedule to send email
             JobDetail jobDetailEmail = getJobDetailEmail();
-            Date startAtEmail = Timestamp.valueOf(of(now().getYear(), now().getMonth(), now().getDayOfMonth(), now().getHour(), 5));
+            Date startAtEmail = Timestamp.valueOf(of(now().getYear(), now().getMonth(), now().getDayOfMonth(), now().getHour() + 1, 5));
             Trigger triggerEmail = getTrigger("Trigger_Email", jobDetailEmail, startAtEmail);
             scheduler.scheduleJob(jobDetailEmail, triggerEmail);
 
@@ -41,7 +41,7 @@ public class SchedulerQuartz {
 
             if (!"cloud".equalsIgnoreCase(activeProfile)) {
                 JobDetail jobDetailJsoup = getJobDetailJsoup();
-                Date startAtJsoup = Timestamp.valueOf(of(now().getYear(), now().getMonth(), now().getDayOfMonth(), now().getHour(), 3));
+                Date startAtJsoup = Timestamp.valueOf(of(now().getYear(), now().getMonth(), now().getDayOfMonth(), now().getHour() + 1, 3));
                 Trigger triggerJsoup = getTrigger("Trigger_Jsoup", jobDetailJsoup, startAtJsoup);
                 scheduler.scheduleJob(jobDetailJsoup, triggerJsoup);
             }

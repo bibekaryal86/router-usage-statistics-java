@@ -11,7 +11,7 @@ public class Util {
     // provided at runtime
     public static final String SERVER_PORT = "PORT";
     public static final String ACTIVE_PROFILE = "PROFILE";
-    public static final String TIME_ZONE = "TIME_ZONE";
+    public static final String TIME_ZONE = "TZ";
     public static final String MONGODB_DATABASE = "DBNAME";
     public static final String MONGODB_USERNAME = "DBUSR";
     public static final String MONGODB_PASSWORD = "DBPWD";

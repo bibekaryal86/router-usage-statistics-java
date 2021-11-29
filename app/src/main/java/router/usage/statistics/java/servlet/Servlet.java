@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import router.usage.statistics.java.model.Model;
 import router.usage.statistics.java.model.ModelResponse;
 
@@ -20,6 +21,7 @@ import static router.usage.statistics.java.servlet.HtmlDisplay.getDisplay;
 import static router.usage.statistics.java.util.Util.TIME_ZONE;
 import static router.usage.statistics.java.util.Util.getSystemEnvProperty;
 
+@Slf4j
 public class Servlet extends HttpServlet {
 
     @Override
@@ -30,35 +32,43 @@ public class Servlet extends HttpServlet {
 
         boolean toJson = Boolean.parseBoolean(request.getParameter("toJson"));
         String selected = request.getParameter("selected");
+        boolean isCheckOnly = Boolean.parseBoolean(request.getParameter("isCheck"));
 
-        if (selected == null || selected.isEmpty()) {
-            String timeZone = getSystemEnvProperty(TIME_ZONE);
-            int monthValue = now(of(timeZone)).getMonthValue();
-            if (monthValue < 10) {
-                selected = now(of(timeZone)).getYear() + "-0" + now().getMonthValue();
-            } else {
-                selected = now(of(timeZone)).getYear() + "-" + now().getMonthValue();
-            }
-        }
+        log.info("In Servlet:: toJson: {} | selected: {} | isCheckOnly: {}", toJson, selected, isCheckOnly);
 
-        String[] selectedYearMonth = selected.split("-");
-        List<String> selectedYear = singletonList(selectedYearMonth[0]);
-        List<String> selectedMonth = singletonList(selectedYearMonth[1]);
-
-        Set<String> yearMonthSet = retrieveUniqueDatesOnly();
-        List<Model> modelList = retrieveDataUsages(selectedYear, selectedMonth);
-        Model modelTotal = calculateTotalDataUsage(modelList);
-
-        if (toJson) {
-            response.addHeader("Access-Control-Allow-Origin", "*");
-            response.setContentType("application/json");
-            ModelResponse modelResponse = getModelResponse(yearMonthSet, modelList, modelTotal);
-            String jsonToDisplay = new Gson().toJson(modelResponse);
-            response.getWriter().print(jsonToDisplay);
-        } else {
+        if (isCheckOnly) {
             response.setContentType("text/html");
-            String htmlToDisplay = getDisplay(modelList, modelTotal, selected, yearMonthSet);
-            response.getWriter().print(htmlToDisplay);
+            response.getWriter().print(returnDataCheck());
+        } else {
+            if (selected == null || selected.isEmpty()) {
+                String timeZone = getSystemEnvProperty(TIME_ZONE);
+                int monthValue = now(of(timeZone)).getMonthValue();
+                if (monthValue < 10) {
+                    selected = now(of(timeZone)).getYear() + "-0" + now().getMonthValue();
+                } else {
+                    selected = now(of(timeZone)).getYear() + "-" + now().getMonthValue();
+                }
+            }
+
+            String[] selectedYearMonth = selected.split("-");
+            List<String> selectedYear = singletonList(selectedYearMonth[0]);
+            List<String> selectedMonth = singletonList(selectedYearMonth[1]);
+
+            Set<String> yearMonthSet = retrieveUniqueDatesOnly();
+            List<Model> modelList = retrieveDataUsages(selectedYear, selectedMonth);
+            Model modelTotal = calculateTotalDataUsage(modelList);
+
+            if (toJson) {
+                response.addHeader("Access-Control-Allow-Origin", "*");
+                response.setContentType("application/json");
+                ModelResponse modelResponse = getModelResponse(yearMonthSet, modelList, modelTotal);
+                String jsonToDisplay = new Gson().toJson(modelResponse);
+                response.getWriter().print(jsonToDisplay);
+            } else {
+                response.setContentType("text/html");
+                String htmlToDisplay = getDisplay(modelList, modelTotal, selected, yearMonthSet);
+                response.getWriter().print(htmlToDisplay);
+            }
         }
     }
 }
