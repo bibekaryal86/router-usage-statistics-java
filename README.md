@@ -31,7 +31,7 @@ The app is deployed here:
 When running the app, the following environment variables are needed: 
 * port (for running locally only, if preferred)
 * profile (eg: local, docker, cloud)
-* time zone (eg: America/Denver)
+* time zone (eg: TZ=America/Denver)
 * mongodb database name 
 * mongodb username 
 * mongodb password
@@ -45,7 +45,7 @@ When running the app, the following environment variables are needed:
 These variables are included in app.yaml for GCP, docker-compose.yml for docker, 
 and should be included in the command when running the app locally.
 
-For example: java -jar -DPORT=7001 -DPROFILE=docker -D"TIME_ZONE=America/Denver" -DDBNAME=mongodb_database_name -DDBUSR=mongodb_username -DDBPWD=mongodb_password -DJSUSR=router_login_username -D"JSPWD=router login password" -DAPI_KEY_PUB=mailjet_public_key -DAPI_KEY_PRV=mailjet_private_key -D"EMAIL=whateversoandso@gmail.com" -D"NAME=Whatever SoAndSo (MAILJET)" SOMETHING.jar
+For example: java -jar -DPORT=7001 -DPROFILE=docker -D"TZ=America/Denver" -DDBNAME=mongodb_database_name -DDBUSR=mongodb_username -DDBPWD=mongodb_password -DJSUSR=router_login_username -D"JSPWD=router login password" -DAPI_KEY_PUB=mailjet_public_key -DAPI_KEY_PRV=mailjet_private_key -D"EMAIL=whateversoandso@gmail.com" -D"NAME=Whatever SoAndSo (MAILJET)" SOMETHING.jar
 
 The app is one of the two repos used to save-retrieve-display data:
 * https://github.com/bibekaryal86/router-usage-statistics-java (save/retrieve data) (this)

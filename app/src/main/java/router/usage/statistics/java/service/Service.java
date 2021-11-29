@@ -34,6 +34,19 @@ public class Service {
     private static Map<String, String> cookies = null;
     private static String previousTotalData = "";
     private static int previousTotalDataFailCount = 0;
+    private static String previousDataUpdatedAt = "";
+    private static String previousDataCheckedAt = "";
+
+    public static String returnDataCheck() {
+        return String.format("Previous Total Data: %s, " +
+                        "Previous Total Data Fail Count: %s, " +
+                        "Previous Data Updated At: %s, " +
+                        "Previous Data Checked At: %s",
+                previousTotalData,
+                previousTotalDataFailCount,
+                previousDataUpdatedAt,
+                previousDataCheckedAt);
+    }
 
     public static void insertDataUsages() {
         log.info("Start Insert Data Usages");
@@ -172,9 +185,9 @@ public class Service {
             log.error("Data Usage Jsoup to Insert is Null");
         } else {
             if (modelMongo == null) {
-                insertDailyDataUsage(modelJsoup);
+                previousDataUpdatedAt = insertDailyDataUsage(modelJsoup, previousDataUpdatedAt);
             } else {
-                updateDailyDataUsage(modelJsoup, modelJsoup.getDate());
+                previousDataUpdatedAt = updateDailyDataUsage(modelJsoup, modelJsoup.getDate(), previousDataUpdatedAt);
             }
         }
     }
@@ -287,6 +300,7 @@ public class Service {
     public static void checkPreviousData() {
         String selected;
         LocalDateTime localDateTime = LocalDateTime.now(of(getSystemEnvProperty(TIME_ZONE)));
+        previousDataCheckedAt = localDateTime.toString();
         int monthValue = localDateTime.getMonthValue();
         if (monthValue < 10) {
             selected = localDateTime.getYear() + "-0" + localDateTime.getMonthValue();

@@ -23,6 +23,8 @@ import org.json.JSONObject;
 import org.jsoup.Connection;
 import router.usage.statistics.java.model.Model;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -125,18 +127,21 @@ public class Connector {
         return mongoClient.getDatabase(dbName).getCollection(MONGODB_COLLECTION_NAME, Model.class);
     }
 
-    public static void insertDailyDataUsage(Model model) {
+    public static String insertDailyDataUsage(Model model, String previousDataUpdatedAt) {
         log.info("Insert Daily Data Usage: {}", model);
 
         try (MongoClient mongoClient = create(getMongoClientSettings())) {
             MongoCollection<Model> mongoCollectionModelClass = getMongoCollectionDataUsage(mongoClient);
             mongoCollectionModelClass.insertOne(model);
+
+            return LocalDateTime.now(ZoneId.of(getSystemEnvProperty(TIME_ZONE))).toString();
         } catch (Exception ex) {
             log.error("Insert Daily Data Usage Error", ex);
+            return previousDataUpdatedAt;
         }
     }
 
-    public static void updateDailyDataUsage(Model model, String date) {
+    public static String updateDailyDataUsage(Model model, String date, String previousDataUpdatedAt) {
         log.info("Update Daily Data Usage: {} | {}", date, model);
 
         try (MongoClient mongoClient = create(getMongoClientSettings())) {
@@ -150,8 +155,11 @@ public class Connector {
             FindOneAndUpdateOptions options = new FindOneAndUpdateOptions().returnDocument(AFTER);
 
             mongoCollectionModelClass.findOneAndUpdate(filter, update, options);
+
+            return LocalDateTime.now(ZoneId.of(getSystemEnvProperty(TIME_ZONE))).toString();
         } catch (Exception ex) {
             log.error("Update Daily Data Usage Error", ex);
+            return previousDataUpdatedAt;
         }
     }
 
