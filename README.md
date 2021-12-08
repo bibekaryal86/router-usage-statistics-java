@@ -41,11 +41,16 @@ When running the app, the following environment variables are needed:
 * email sender/receiver name (current same name used to send/receive) 
 * MailJet API Key (public) 
 * MailJet API Key (private)
+Additional environment variables for Sinch SMS POC
+* phone number provided by Sinch to send SMS
+* phone number to receive SMS
+* Sinch Plan Id
+* Sinch Auth Token
 
 These variables are included in app.yaml for GCP, docker-compose.yml for docker, 
 and should be included in the command when running the app locally.
 
-For example: java -jar -DPORT=7001 -DPROFILE=docker -D"TZ=America/Denver" -DDBNAME=mongodb_database_name -DDBUSR=mongodb_username -DDBPWD=mongodb_password -DJSUSR=router_login_username -D"JSPWD=router login password" -DAPI_KEY_PUB=mailjet_public_key -DAPI_KEY_PRV=mailjet_private_key -D"EMAIL=whateversoandso@gmail.com" -D"NAME=Whatever SoAndSo (MAILJET)" SOMETHING.jar
+For example: java -jar -DPORT=7001 -DPROFILE=docker -D"TZ=America/Denver" -DDBNAME=mongodb_database_name -DDBUSR=mongodb_username -DDBPWD=mongodb_password -DJSUSR=router_login_username -D"JSPWD=router login password" -DAPI_KEY_PUB=mailjet_public_key -DAPI_KEY_PRV=mailjet_private_key -D"EMAIL=whateversoandso@gmail.com" -D"NAME=Whatever SoAndSo (MAILJET)" -DSENDER=11234567890 -DRECEIVER=10987654321 -DSINCH_PLAN=plan_id -DSINCH_TOKEN=the_token SOMETHING.jar
 
 The app is one of the two repos used to save-retrieve-display data:
 * https://github.com/bibekaryal86/router-usage-statistics-java (save/retrieve data) (this)
