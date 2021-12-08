@@ -328,6 +328,7 @@ public class Service {
                 String text = String.format("Model is NULL: %s", localDateTime);
                 log.info(text);
                 sendEmail(text);
+                sendSms(text);
             }
         }
     }

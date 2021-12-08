@@ -37,6 +37,7 @@ public class Servlet extends HttpServlet {
         log.info("In Servlet:: toJson: {} | selected: {} | isCheckOnly: {}", toJson, selected, isCheckOnly);
 
         if (isCheckOnly) {
+            log.info(returnDataCheck());
             response.setContentType("text/html");
             response.getWriter().print(returnDataCheck());
         } else {
