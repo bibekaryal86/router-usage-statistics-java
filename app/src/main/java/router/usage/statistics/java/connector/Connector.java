@@ -23,6 +23,10 @@ import org.json.JSONObject;
 import org.jsoup.Connection;
 import router.usage.statistics.java.model.Model;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -58,6 +62,10 @@ public class Connector {
     private static String emailSenderName = null;
     private static String emailPrivateKey = null;
     private static String emailPublicKey = null;
+    private static String smsSenderNumber = null;
+    private static String smsReceiverNumber = null;
+    private static String smsPlanId = null;
+    private static String smsAuthToken = null;
 
     private static void initJsoup() {
         if (jsUsr == null || jsPwd == null) {
@@ -81,6 +89,15 @@ public class Connector {
             emailSenderName = getSystemEnvProperty(MJ_SENDER_NAME);
             emailPrivateKey = getSystemEnvProperty(MJ_APIKEY_PRIVATE);
             emailPublicKey = getSystemEnvProperty(MJ_APIKEY_PUBLIC);
+        }
+    }
+
+    private static void initSms() {
+        if (smsSenderNumber == null || smsReceiverNumber == null || smsPlanId == null || smsAuthToken == null) {
+            smsSenderNumber = getSystemEnvProperty(SINCH_SENDER);
+            smsReceiverNumber = getSystemEnvProperty(SINCH_RECEIVER);
+            smsPlanId = getSystemEnvProperty(SINCH_PLAN_ID);
+            smsAuthToken = getSystemEnvProperty(SINCH_AUTH_TOKEN);
         }
     }
 
@@ -235,6 +252,48 @@ public class Connector {
             }
         } catch (Exception ex) {
             log.error("Send Email Error: {}", text, ex);
+        }
+    }
+
+    public static void sendSms(String text) {
+        initSms();
+        log.info("Send Sms Request: {}", text);
+
+        try {
+            HttpClient httpClient = HttpClient.newBuilder().build();
+
+            // copied from sinch's documentation
+            // but not the way to do it (using model is the way to go)
+            String payload = String.join("\n"
+                    , "{"
+                    , " \"from\": \"" + smsSenderNumber + "\","
+                    , " \"to\": ["
+                    , "  \"" + smsReceiverNumber + "\""
+                    , " ],"
+                    , " \"body\": \"" + text + "\""
+                    , "}"
+            );
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .POST(HttpRequest.BodyPublishers.ofString(payload))
+                    .uri(URI.create(String.format("https://us.sms.api.sinch.com/xms/v1/%s/batches", smsPlanId)))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", String.format("Bearer %s", smsAuthToken))
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 201) {
+                log.info("Send Sms Response Success: {}", text);
+            } else {
+                log.info("Send Sms Response Failure: {} | {}", text, response.body());
+            }
+        } catch (Exception ex) {
+            log.error("Send Sms Error: {}", text, ex);
+
+            if (ex instanceof InterruptedException) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 }

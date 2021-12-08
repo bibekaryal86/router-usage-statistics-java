@@ -5,6 +5,7 @@ import router.usage.statistics.java.scheduler.SchedulerQuartz;
 import router.usage.statistics.java.server.ServerJetty;
 
 import static router.usage.statistics.java.service.Service.insertDataUsages;
+import static router.usage.statistics.java.util.Util.isNotCloudDeployment;
 
 @Slf4j
 public class App {
@@ -15,7 +16,9 @@ public class App {
         new SchedulerQuartz().start();
         log.info("End router-usage-statistics-java initialization...");
 
-        // run once when the app runs
-        insertDataUsages();
+        // run once when the app starts
+        if (isNotCloudDeployment()) {
+            insertDataUsages();
+        }
     }
 }
