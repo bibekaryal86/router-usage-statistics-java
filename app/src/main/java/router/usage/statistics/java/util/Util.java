@@ -21,6 +21,10 @@ public class Util {
     public static final String MJ_APIKEY_PRIVATE = "API_KEY_PRV";
     public static final String MJ_SENDER_EMAIL = "EMAIL";
     public static final String MJ_SENDER_NAME = "NAME";
+    public static final String SINCH_SENDER = "SENDER";
+    public static final String SINCH_RECEIVER = "RECEIVER";
+    public static final String SINCH_PLAN_ID = "SINCH_PLAN";
+    public static final String SINCH_AUTH_TOKEN = "SINCH_TOKEN";
 
     // others
     public static final int SERVER_MAX_THREADS = 100;
@@ -40,6 +44,10 @@ public class Util {
 
     public static String getSystemEnvProperty(String keyName) {
         return System.getProperty(keyName) != null ? System.getProperty(keyName) : System.getenv(keyName);
+    }
+
+    public static boolean isNotCloudDeployment() {
+        return !"cloud".equals(getSystemEnvProperty(ACTIVE_PROFILE));
     }
 
     public static String getShorterDate() {

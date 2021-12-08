@@ -15,8 +15,7 @@ import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
 import static org.quartz.impl.StdSchedulerFactory.getDefaultScheduler;
-import static router.usage.statistics.java.util.Util.ACTIVE_PROFILE;
-import static router.usage.statistics.java.util.Util.getSystemEnvProperty;
+import static router.usage.statistics.java.util.Util.isNotCloudDeployment;
 
 @Slf4j
 public class SchedulerQuartz {
@@ -36,10 +35,7 @@ public class SchedulerQuartz {
 
             // schedule to insert/update data
             // if running on cloud (GCP/AWS), this can't be done
-            String activeProfile = getSystemEnvProperty(ACTIVE_PROFILE);
-            log.info("Active Profile: {}", activeProfile);
-
-            if (!"cloud".equalsIgnoreCase(activeProfile)) {
+            if (isNotCloudDeployment()) {
                 JobDetail jobDetailJsoup = getJobDetailJsoup();
                 Date startAtJsoup = Timestamp.valueOf(of(now().getYear(), now().getMonth(), now().getDayOfMonth(), now().getHour() + 1, 3));
                 Trigger triggerJsoup = getTrigger("Trigger_Jsoup", jobDetailJsoup, startAtJsoup);

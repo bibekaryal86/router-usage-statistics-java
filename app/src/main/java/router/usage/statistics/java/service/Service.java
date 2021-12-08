@@ -353,6 +353,7 @@ public class Service {
             } else {
                 String text = String.format("Data was not Updated: %s | %s", previousTotalDataFailCount, localDateTime);
                 sendEmail(text);
+                sendSms(text);
             }
         } else {
             previousTotalData = model.getDataTotal();

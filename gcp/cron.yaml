@@ -1,4 +1,4 @@
 cron:
-  - description: "check isCheck"
+  - description: "isCheck"
     url: /?isCheck=true
-    schedule: every 10 mins
+    schedule: every 15 mins
