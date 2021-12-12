@@ -1,0 +1,4 @@
+cron:
+  - description: "isCheck"
+    url: /?isCheck=true
+    schedule: every 15 mins
