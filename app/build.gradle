@@ -26,7 +26,7 @@ dependencies {
             strictly '1.7.32'
         }
     }
-    implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+    implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.10'
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 }
 
