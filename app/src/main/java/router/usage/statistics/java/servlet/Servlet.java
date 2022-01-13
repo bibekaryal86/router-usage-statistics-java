@@ -17,7 +17,7 @@ import static java.time.LocalDate.now;
 import static java.time.ZoneId.of;
 import static java.util.Collections.singletonList;
 import static router.usage.statistics.java.service.Service.*;
-import static router.usage.statistics.java.servlet.HtmlDisplay.getDisplay;
+import static router.usage.statistics.java.util.HtmlDisplay.getDisplay;
 import static router.usage.statistics.java.util.Util.TIME_ZONE;
 import static router.usage.statistics.java.util.Util.getSystemEnvProperty;
 
@@ -38,7 +38,7 @@ public class Servlet extends HttpServlet {
 
         if (isCheckOnly) {
             log.info(returnDataCheck());
-            response.setContentType("text/html");
+            response.setContentType("application/json");
             response.getWriter().print(returnDataCheck());
         } else {
             if (selected == null || selected.isEmpty()) {

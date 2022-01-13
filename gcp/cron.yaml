@@ -1,4 +1,4 @@
 cron:
-  - description: "isCheck"
-    url: /?isCheck=true
+  - description: "ping"
+    url: /tests/ping
     schedule: every 15 mins

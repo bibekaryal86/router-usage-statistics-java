@@ -1,4 +1,4 @@
-package router.usage.statistics.java.servlet;
+package router.usage.statistics.java.util;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
