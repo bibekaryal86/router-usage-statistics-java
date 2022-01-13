@@ -6,6 +6,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
+import router.usage.statistics.java.servlet.AppPing;
 import router.usage.statistics.java.servlet.Servlet;
 
 import static router.usage.statistics.java.util.Util.*;
@@ -27,6 +28,7 @@ public class ServerJetty {
 
         ServletHandler servletHandler = new ServletHandler();
         servletHandler.addServletWithMapping(Servlet.class, "/");
+        servletHandler.addServletWithMapping(AppPing.class, "/tests/ping");
 
         server.setHandler(servletHandler);
         server.start();

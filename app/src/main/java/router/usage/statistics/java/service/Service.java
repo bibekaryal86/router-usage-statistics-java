@@ -38,14 +38,9 @@ public class Service {
     private static String previousDataCheckedAt = "";
 
     public static String returnDataCheck() {
-        return String.format("Previous Total Data: %s, " +
-                        "Previous Total Data Fail Count: %s, " +
-                        "Previous Data Updated At: %s, " +
-                        "Previous Data Checked At: %s",
-                previousTotalData,
-                previousTotalDataFailCount,
-                previousDataUpdatedAt,
-                previousDataCheckedAt);
+        return String.format("{\"check\": {\"previousTotalData\": \"%s\",\"previousTotalDataFailCount\": \"%s\"," +
+                        "\"previousDataUpdatedAt\": \"%s\",\"previousDataCheckedAt\": \"%s\"}}",
+                previousTotalData, previousTotalDataFailCount, previousDataUpdatedAt, previousDataCheckedAt);
     }
 
     public static void insertDataUsages() {
