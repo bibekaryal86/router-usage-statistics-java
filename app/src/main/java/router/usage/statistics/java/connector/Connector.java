@@ -255,6 +255,7 @@ public class Connector {
         }
     }
 
+    // not used anymore, kept for future reference
     public static void sendSms(String text) {
         initSms();
         log.info("Send Sms Request: {}", text);

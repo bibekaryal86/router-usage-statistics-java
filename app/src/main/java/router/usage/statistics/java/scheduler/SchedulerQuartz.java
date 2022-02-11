@@ -30,12 +30,6 @@ public class SchedulerQuartz {
 
             int hour = now().getHour() == 23 ? 23 : now().getHour() + 1;
 
-            // schedule to send email
-            JobDetail jobDetailEmail = getJobDetailEmail();
-            Date startAtEmail = Timestamp.valueOf(of(now().getYear(), now().getMonth(), now().getDayOfMonth(), hour, 5));
-            Trigger triggerEmail = getTrigger("Trigger_Email", jobDetailEmail, startAtEmail);
-            scheduler.scheduleJob(jobDetailEmail, triggerEmail);
-
             // schedule to insert/update data
             // if running on cloud (GCP/AWS), this can't be done
             if (isNotCloudDeployment()) {
@@ -43,6 +37,13 @@ public class SchedulerQuartz {
                 Date startAtJsoup = Timestamp.valueOf(of(now().getYear(), now().getMonth(), now().getDayOfMonth(), hour, 3));
                 Trigger triggerJsoup = getTrigger("Trigger_Jsoup", jobDetailJsoup, startAtJsoup);
                 scheduler.scheduleJob(jobDetailJsoup, triggerJsoup);
+            } else {
+                // schedule to send email
+                // only do it when running on cloud or outside of local network
+                JobDetail jobDetailEmail = getJobDetailEmail();
+                Date startAtEmail = Timestamp.valueOf(of(now().getYear(), now().getMonth(), now().getDayOfMonth(), hour, 5));
+                Trigger triggerEmail = getTrigger("Trigger_Email", jobDetailEmail, startAtEmail);
+                scheduler.scheduleJob(jobDetailEmail, triggerEmail);
             }
         } catch (SchedulerException ex) {
             log.error("Start Scheduler Error", ex);

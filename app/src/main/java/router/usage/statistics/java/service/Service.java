@@ -323,7 +323,7 @@ public class Service {
                 String text = String.format("Model is NULL: %s", localDateTime);
                 log.info(text);
                 sendEmail(text);
-                sendSms(text);
+                // sendSms(text);
             }
         }
     }
@@ -349,7 +349,7 @@ public class Service {
             } else {
                 String text = String.format("Data was not Updated: %s | %s", previousTotalDataFailCount, localDateTime);
                 sendEmail(text);
-                sendSms(text);
+                // sendSms(text);
             }
         } else {
             previousTotalData = model.getDataTotal();
