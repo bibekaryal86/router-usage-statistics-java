@@ -13,15 +13,17 @@ import org.bson.types.ObjectId;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Model {
-    @BsonId
-    private ObjectId id;
-    private String date;
-    private String year;
-    private String day;
-    @BsonProperty(value = "data_upload")
-    private String dataUpload;
-    @BsonProperty(value = "data_download")
-    private String dataDownload;
-    @BsonProperty(value = "data_total")
-    private String dataTotal;
+  @BsonId private ObjectId id;
+  private String date;
+  private String year;
+  private String day;
+
+  @BsonProperty(value = "data_upload")
+  private String dataUpload;
+
+  @BsonProperty(value = "data_download")
+  private String dataDownload;
+
+  @BsonProperty(value = "data_total")
+  private String dataTotal;
 }
